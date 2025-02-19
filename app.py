@@ -73,3 +73,5 @@ if job_description and resume_text:
         match_result = match_resume_to_job(resume_text, job_description)
         st.subheader("🎯 AI Match Score & Insights")
         st.write(match_result)
+        st.write("API Key Loaded:", api_key[:5] + "..." + api_key[-5:])  # Debugging
+
