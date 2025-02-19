@@ -1,13 +1,20 @@
+import os  # ✅ Fix: Import OS first
+import openai
+import streamlit as st
 import fitz  # PyMuPDF for PDFs
 import docx  # python-docx for Word documents
-import streamlit as st
-import openai  # OpenAI API for job matching
 
-# Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Replace with your OpenAI key
+# Load OpenAI API Key securely
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    st.error("🚨 OpenAI API Key is missing! Set `OPENAI_API_KEY` in your environment variables or Streamlit Secrets.")
+else:
+    openai.api_key = api_key
 
 st.title("🔍 SkillMatcher – AI-Powered Resume Matching")
 
+# File uploader for resume
 uploaded_resume = st.file_uploader("Upload your resume (PDF, DOCX, or TXT)", type=["pdf", "docx", "txt"])
 
 def extract_text_from_pdf(uploaded_file):
@@ -22,7 +29,7 @@ def extract_text_from_docx(uploaded_file):
     text = "\n".join([para.text for para in doc.paragraphs])
     return text
 
-# Resume text extraction
+# Extract resume text
 resume_text = ""
 if uploaded_resume:
     file_type = uploaded_resume.type
@@ -40,6 +47,7 @@ if uploaded_resume:
 st.subheader("🔗 Paste Job Description Below:")
 job_description = st.text_area("Job Description:")
 
+# Function to match resume to job description using AI
 def match_resume_to_job(resume_text, job_description):
     """AI-based resume-job matching"""
     prompt = f"""
@@ -56,12 +64,12 @@ def match_resume_to_job(resume_text, job_description):
         messages=[{"role": "user", "content": prompt}]
     )
 
-    return response["choices"][0]["message"]["content"]
+    return response.choices[0].message.content
 
 # Button to trigger AI matching
-if job_description:
+if job_description and resume_text:
     if st.button("🔍 Match Resume to Job"):
-        st.success("Matching in progress...")
+        st.success("Matching in progress... ⏳")
         match_result = match_resume_to_job(resume_text, job_description)
         st.subheader("🎯 AI Match Score & Insights")
         st.write(match_result)
