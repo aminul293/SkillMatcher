@@ -48,7 +48,6 @@ if uploaded_resume:
 st.subheader("🔗 Paste Job Description Below:")
 job_description = st.text_area("Job Description:")
 
-# Function to match resume to job description using AI
 def match_resume_to_job(resume_text, job_description):
     """AI-based resume-job matching"""
     prompt = f"""
@@ -61,7 +60,7 @@ def match_resume_to_job(resume_text, job_description):
     """
 
     response = openai.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-3.5-turbo",  # 🔄 Change to GPT-3.5 if GPT-4 is unavailable
         messages=[{"role": "user", "content": prompt}]
     )
 
