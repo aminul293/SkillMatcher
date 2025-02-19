@@ -4,13 +4,14 @@ import streamlit as st
 import fitz  # PyMuPDF for PDFs
 import docx  # python-docx for Word documents
 
-# Load OpenAI API Key securely
+# Load API key securely
 api_key = os.getenv("OPENAI_API_KEY")
 
 if not api_key:
-    st.error("🚨 OpenAI API Key is missing! Set `OPENAI_API_KEY` in your environment variables or Streamlit Secrets.")
+    st.error("🚨 OpenAI API Key is missing! Please set `OPENAI_API_KEY` in Streamlit Secrets or your environment.")
 else:
     openai.api_key = api_key
+    st.success("✅ OpenAI API Key Loaded Successfully!")
 
 st.title("🔍 SkillMatcher – AI-Powered Resume Matching")
 
