@@ -4,7 +4,7 @@ import streamlit as st
 import openai  # OpenAI API for job matching
 
 # Set your OpenAI API key
-openai.api_key = "your-openai-api-key"  # Replace with your OpenAI key
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Replace with your OpenAI key
 
 st.title("🔍 SkillMatcher – AI-Powered Resume Matching")
 
