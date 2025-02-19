@@ -51,7 +51,7 @@ def match_resume_to_job(resume_text, job_description):
     Resume:\n{resume_text}\n\nJob Description:\n{job_description}
     """
 
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
         model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}]
     )
